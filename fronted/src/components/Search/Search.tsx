@@ -1,9 +1,4 @@
-import React, {
-  ChangeEvent,
-  MouseEvent,
-  SyntheticEvent,
-  useState,
-} from "react";
+import React, { ChangeEvent, SyntheticEvent } from "react";
 import { searchCompanies } from "../../api";
 
 interface Props {
