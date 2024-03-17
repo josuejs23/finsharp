@@ -66,12 +66,12 @@ const configs = [
 const IncomeStatement = (props: Props) => {
   const ticker = useOutletContext<string>();
   const [incomeStatement, setIncomeStatement] =
-    useState<CompanyIncomeStatement>();
+    useState<CompanyIncomeStatement[]>();
 
   useEffect(() => {
     const incomeStatementFetch = async () => {
       const result = await getIncomeStatement(ticker);
-      setIncomeStatement(result?.data[0]);
+      setIncomeStatement(result?.data);
     };
     incomeStatementFetch();
   }, []);

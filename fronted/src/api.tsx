@@ -1,5 +1,7 @@
 import axios from "axios";
 import {
+  CompanyBalanceSheet,
+  CompanyCashFlow,
   CompanyIncomeStatement,
   CompanyKeyMetrics,
   CompanyKeyRatios,
@@ -50,6 +52,7 @@ export const getKeyMetrics = async (query: string) => {
     console.log("Error in getTtmCompany");
   }
 };
+
 export const getIncomeStatement = async (query: string) => {
   try {
     const data = await axios.get<CompanyIncomeStatement[]>(
@@ -58,5 +61,27 @@ export const getIncomeStatement = async (query: string) => {
     return data;
   } catch (error) {
     console.log("Error in getTtmCompany");
+  }
+};
+
+export const getBalanceSheet = async (query: string) => {
+  try {
+    const data = await axios.get<CompanyBalanceSheet[]>(
+      `https://financialmodelingprep.com/api/v3/balance-sheet-statement/${query}?limit=40&apikey=${process.env.REACT_APP_API_KEY}`
+    );
+    return data;
+  } catch (error) {
+    console.log("Error in getTtmCompany");
+  }
+};
+
+export const getCashFlow = async (query: string) => {
+  try {
+    const data = await axios.get<CompanyCashFlow[]>(
+      `https://financialmodelingprep.com/api/v3/cash-flow-statement/${query}?limit=40&apikey=${process.env.REACT_APP_API_KEY}`
+    );
+    return data;
+  } catch (error) {
+    console.log("Error in cashFlowStatement");
   }
 };
