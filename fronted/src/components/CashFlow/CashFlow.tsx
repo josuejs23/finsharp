@@ -4,6 +4,7 @@ import { useOutletContext } from "react-router";
 import { getCashFlow } from "../../api";
 import Table from "../Table/Table";
 import { data } from "cheerio/lib/api/attributes";
+import Spinner from "../Spinner/Spinner";
 
 type Props = {};
 
@@ -56,13 +57,7 @@ const CashFlow = (props: Props) => {
   }, []);
 
   return (
-    <>
-      {cashFlow ? (
-        <Table config={config} data={cashFlow} />
-      ) : (
-        <h1>Not results...</h1>
-      )}
-    </>
+    <>{cashFlow ? <Table config={config} data={cashFlow} /> : <Spinner />}</>
   );
 };
 

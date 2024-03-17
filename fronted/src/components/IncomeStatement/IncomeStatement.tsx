@@ -4,6 +4,7 @@ import { useOutletContext } from "react-router";
 import { getIncomeStatement } from "../../api";
 import Table from "../Table/Table";
 import { data } from "cheerio/lib/api/attributes";
+import Spinner from "../Spinner/Spinner";
 
 interface Props {}
 
@@ -82,7 +83,7 @@ const IncomeStatement = (props: Props) => {
           <Table config={configs} data={incomeStatement} />
         </>
       ) : (
-        <>Loading....</>
+        <Spinner />
       )}
     </>
   );
