@@ -4,9 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using api.Data;
 using api.DTOs.Stock;
+using api.Helpers;
 using api.Interfaces;
 using api.models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace api.Repository
 {
@@ -38,9 +40,20 @@ namespace api.Repository
             return stockInDb;
         }
 
-        public async  Task<List<Stock>> GetAllSync()
+        public async  Task<List<Stock>> GetAllSync(QueryObject? queryObject)
         {
-            return await _context.Stocks.Include(s => s.Comments).ToListAsync();
+            var stocks = _context.Stocks.Include(s => s.Comments).AsQueryable();
+            
+            if(queryObject != null && !string.IsNullOrWhiteSpace(queryObject.Symbol))
+            {
+                stocks = stocks.Where(s => s.Symbol.Contains(queryObject.Symbol));
+            }
+
+            if(queryObject != null && !string.IsNullOrWhiteSpace(queryObject.Company))
+            {
+                stocks = stocks.Where(s => s.CompanyName.Contains(queryObject.Company));
+            }
+            return await stocks.ToListAsync();
         }
 
         public async Task<Stock?> GetByIdAsync(int id)

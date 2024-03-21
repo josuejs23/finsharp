@@ -7,7 +7,7 @@ namespace api.Helpers
 {
     public class QueryObject
     {
-        public string? Symbol { get; set; }
-        public string? Company { get; set; }
+        public string? Symbol { get; set; } = null;
+        public string? Company { get; set; } = null;
     }
 }
