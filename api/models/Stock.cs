@@ -2,6 +2,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace api.models
 {
+    [Table("Stocks")]
     public class Stock
     {
         
@@ -23,6 +24,7 @@ namespace api.models
 
         public List<Comment> Comments {get; set;} = new List<Comment>();
 
+        public List<Portfolio> Portfolios { get; set; } = new List<Portfolio>();
 
     }
 }
