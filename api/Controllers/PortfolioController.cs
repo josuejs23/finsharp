@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using api.DTOs;
 using api.Extensions;
 using api.Interfaces;
 using api.models;
@@ -33,6 +34,34 @@ namespace api.Controllers
             var appUser = await _userManager.FindByNameAsync(username);
             var userPortofio = await _portfolioRepository.GetUserPortfolio(appUser);
             return Ok(userPortofio);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> AddPortfolio(string symbol){
+            var username = User.GetUsername();
+            var appUser = await _userManager.FindByNameAsync(username);
+            var stock = await _stockRepo.GetBySymbolAsync(symbol);
+
+            if(stock == null) return BadRequest("Stock not found!");
+
+            var userPortofio = await _portfolioRepository.GetUserPortfolio(appUser);
+            if(userPortofio.Any(e=>e.Symbol.ToLower() == symbol.ToLower()))
+                return BadRequest("Cannot add same stock to the portfolio.");
+
+            var portfolioModel = new Portfolio
+            {
+                StockId = stock.Id,
+                AppUserId = appUser.Id
+            };
+
+            await _portfolioRepository.CreateAsync(portfolioModel);
+            if(portfolioModel == null)
+            {
+                return StatusCode(500, "Could not create");
+            }
+
+            return Created();
         }
     }
 }

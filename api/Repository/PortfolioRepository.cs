@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using api.Data;
+using api.DTOs;
 using api.Interfaces;
 using api.models;
 using Microsoft.EntityFrameworkCore;
@@ -17,6 +18,14 @@ namespace api.Repository
         {
             _dbContext = dbContext;
         }
+
+        public async Task<Portfolio> CreateAsync(Portfolio portfolio)
+        {
+            await _dbContext.Portfolios.AddAsync(portfolio);
+            await _dbContext.SaveChangesAsync();
+            return portfolio;
+        }
+
         public async Task<List<Stock>> GetUserPortfolio(AppUser user)
         {
             return await _dbContext.Portfolios.Where( u => u.AppUserId == user.Id)
@@ -31,5 +40,6 @@ namespace api.Repository
                     MarketCap = stock.Stock.MarketCap
                 }).ToListAsync();
         }
+       
     }
 }
