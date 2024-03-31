@@ -9,6 +9,7 @@ using api.Interfaces;
 using api.Mappers;
 using api.models;
 using api.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -34,7 +35,8 @@ namespace api.Controllers
         }
        
         [HttpGet]
-        public async Task<IActionResult> GetAll(CommentQueryObject query){
+        [Authorize]
+        public async Task<IActionResult> GetAll([FromQuery] CommentQueryObject query){
             var commentsInDb = await _commentRepository.GetAllAsync(query);
             var commentsDto = commentsInDb.Select( c => c.ToCommentDto() );
             return Ok(commentsDto);
