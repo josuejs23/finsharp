@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using api.DTOs.Comment;
 using api.Extensions;
+using api.Helpers;
 using api.Interfaces;
 using api.Mappers;
 using api.models;
@@ -33,8 +34,8 @@ namespace api.Controllers
         }
        
         [HttpGet]
-        public async Task<IActionResult> GetAll(){
-            var commentsInDb = await _commentRepository.GetAllAsync();
+        public async Task<IActionResult> GetAll(CommentQueryObject query){
+            var commentsInDb = await _commentRepository.GetAllAsync(query);
             var commentsDto = commentsInDb.Select( c => c.ToCommentDto() );
             return Ok(commentsDto);
         }
