@@ -108,6 +108,13 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors( x=> x
+    .AllowAnyMethod()
+    .AllowAnyHeader()
+    .AllowCredentials()
+    //.WithOrigins("http://wwww.google.com")
+    .SetIsOriginAllowed(origin => true)
+    );
 
 app.UseCors(x => x
      .AllowAnyMethod()
