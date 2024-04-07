@@ -1,1 +1,1 @@
-# finsharp
+# fin-sharp
